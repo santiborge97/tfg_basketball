@@ -16,7 +16,6 @@ import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -24,10 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'w65nh%!2vr86i&(t*2(m14kj@n_l4(l7mdc)c(xdbo73o8@ahm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False #Linea modificada para heroku(Estaba a True)
+DEBUG = False  # Linea modificada para heroku(Estaba a True)
 
-ALLOWED_HOSTS = ['*'] #Linea modificada para heroku(Estaba vacío)
-
+ALLOWED_HOSTS = ['*']  # Linea modificada para heroku(Estaba vacío)
 
 # Application definition
 
@@ -50,7 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'  #Linea añadida para heroku
+    'whitenoise.middleware.WhiteNoiseMiddleware'  # Linea añadida para heroku
 ]
 
 ROOT_URLCONF = 'tfg_basketball.urls'
@@ -58,7 +56,7 @@ ROOT_URLCONF = 'tfg_basketball.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,7 +70,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'tfg_basketball.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -88,7 +85,7 @@ WSGI_APPLICATION = 'tfg_basketball.wsgi.application'
 #    }
 # }
 
-#Bloque añadido para heroku
+# Bloque añadido para heroku
 import dj_database_url
 from decouple import config
 
@@ -97,7 +94,6 @@ DATABASES = {
         default=config('DATABASE_URL')
     )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -124,7 +120,6 @@ AUTHENTICATION_BACKENDS = (
     'basketball.backends.EmailAuthBackend'
 )
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -138,17 +133,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static/'),
 )
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 STATIC_URL = '/static/'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  #Linea añadida para heroku
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Linea añadida para heroku
 
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/'
