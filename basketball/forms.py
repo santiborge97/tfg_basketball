@@ -42,8 +42,8 @@ CHOICES_TEAMS = [
     ('WAS', 'Washington Wizards')
 ]
 
-#CHOICES_PLAYERS = services.PlayerService().get_all_players_names()
-CHOICES_PLAYERS = []
+CHOICES_PLAYERS = services.PlayerService().get_all_players_names()
+#CHOICES_PLAYERS = []
 
 
 class LoginForm(AuthenticationForm):
