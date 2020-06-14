@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es, en">
+
+<head>
+    <title>Basketball App</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/main.css'%}"/>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css'%}" />
+    <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon" />
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header" class="alt">
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                <img  width="100%" height="100%" class="logo" src="{% static 'images/logoblanco.png' %}" alt="Basketball App">
+            </a><!--<a href="{% url 'home' %}">Basketball App <span></span></a>--></div>
+        <a href="#menu" class="toggle"><span>Menu</span></a>
+    </header>
+    <!-- Nav -->
+    <nav id="menu">
+        <ul class="links">
+            {% if  user.is_authenticated %}
+            <li><a href="{% url 'shot_predictions_list' %}">Mis Búsquedas</a></li>
+            <li><a href="{% url 'shot_predictor' %}">Predictor de tiros</a></li>
+            <li><a href="{% url 'lineup_predictor_by_statistics' %}">Predictor de quintetos por estadisticas</a></li>
+            <li><a href="{% url 'lineup_predictor_by_players' %}">Predictor de quintetos por jugadores</a></li>
+            <li><a href="{% url 'list_player_filter' %}">Jugadores</a></li>
+            <li><a href="{% url 'list_lineup_filter' %}">Quintetos</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+            {% endif %}
+            {% if not user.is_authenticated %}
+            <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+            <li><a href="{% url 'signup' %}">Regístrate</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+
+    <footer id="footer" class="wrapper">
+				<div class="inner">
+					<div class="copyright">
+						&copy; 2020 Basketball App. Todos los derechos reservados.
+					</div>
+				</div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="{% static 'js/jquery.scrolly.min.js'%}"></script>
+    <script src="{% static 'js/jquery.scrollex.min.js'%}"></script>
+    <script src="{% static 'js/skel.min.js'%}"></script>
+    <script src="{% static 'js/util.js'%}"></script>
+    <script src="{% static 'js/main.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="{% static 'js/sorttable.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.js"></script>
+
+
+    {% block scripts %}
+
+    {% endblock %}
+
+</body>
+</html>

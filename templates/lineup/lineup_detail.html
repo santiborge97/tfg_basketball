@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block content %}
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div>
+            <div class="box">
+                <div class="content">
+                    <header class="align-center">
+                        <h2>{{ object.group_name }}</a></h2>
+                    </header>
+                    <hr/>
+                    <div class="row">
+                        <div class="6u 12u$(small)">
+                            <ul class="alt">
+                                <li><b>Equipo:</b> {{ object.team_abreviation }}</li>
+                                <li><b>Partidos jugados:</b> {{object.games_played}}</li>
+                                <li><b>Victorias:</b> {{ object.w }}</li>
+                                <li><b>Derrotas:</b> {{ object.l }}</li>
+                                <li><b>% de victorias:</b> {{ object.w_pct }}</li>
+                                <!-- GRÁFICO VICTORIAS DERROTAS-->
+                                <div id="containerGames" >
+                                    <canvas id="bar-chart-games" style="position: relative; margin: auto; height: 80vh; width: 70vw;"></canvas>
+                                </div>
+                                <br>
+                                <br>
+
+
+                                <li><b>Poss:</b> {{ object.poss }}</li>
+                                <li><b>Ast %:</b> {{ object.ast_pct }}</li>
+                                <li><b>Ast To:</b> {{ object.ast_to }}</li>
+                                <li><b>Ast Ratio:</b> {{ object.ast_ratio }}</li>
+                                <li><b>Off Reb %:</b> {{ object.oreb_pct }}</li>
+                                <li><b>Def Reb %:</b> {{ object.dreb_pct }}</li>
+                                <li><b>Reb %:</b> {{ object.reb_pct }}</li>
+                                <li><b>Tm Tov %:</b> {{ object.tm_tov_pct }}</li>
+                            </ul>
+
+                        </div>
+                        <div class="6u 12u$(small)">
+                            <ul class="alt">
+                                <li><b>Minutos:</b> {{ object.min|floatformat:1 }}</li>
+                                <li><b>Pace:</b> {{ object.pace }}</li>
+                                <li><b>Pace Per 40:</b> {{ object.pace_per40 }}</li>
+                                <li><b>Pie:</b> {{ object.pie }}</li>
+
+                                <!-- GRÁFICO PIE-->
+                                <div id="containerPie">
+                                    <canvas id="bar-chart-pie" style="position: relative; margin: auto; height: 80vh; width: 70vw;"></canvas>
+                                </div>
+                                <br>
+                                <li><b>TS %:</b> {{ object.ts_pct }}</li>
+                                <li><b>EFG %:</b> {{ object.efg_pct }}</li>
+                                <!-- GRÁFICO EFG-->
+                                <div id="containerEfg">
+                                    <canvas id="bar-chart-efg" style="position: relative; margin: auto; height: 80vh; width: 70vw;"></canvas>
+                                </div>
+                                <br>
+                                <br>
+                            </ul>
+
+                        </div>
+
+                        <div class="12u 12u$(small)">
+                            <ul class="alt">
+                            <li><b>Off Rating:</b> {{ object.off_rating|floatformat:1 }}</li>
+                            <li><b>Deff Rating:</b> {{ object.def_rating|floatformat:1 }}</li>
+                            <li><b>Net Rating:</b> {{ object.net_rating|floatformat:1 }}</li>
+                            <!-- GRÁFICO OFF, DEF, NET RATING-->
+                            <div id="containerRating">
+                                <canvas id="bar-chart-rating" style="position: relative; margin: auto; height: 80vh; width: 70vw;"></canvas>
+                            </div>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <a href="{% url 'list_lineup_filter' %}" class="button" style="margin-left: 3%;">Volver</a>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block scripts %}
+{% localize off %}
+<script>
+//GRÁFICO VICTORIAS, DERROTAS
+var ctxGames = document.getElementById("bar-chart-games").getContext("2d");
+            var myChartGames = new Chart(ctxGames,{
+                type:"pie",
+                data:{
+                    labels:['Victorias','Derrotas'],
+                    datasets:[{
+                            label: "Num partidos",
+                            data:[{{ object.w }},{{ object.l }}],
+                            fill:false,
+                            backgroundColor:[
+                                "rgba(75, 192, 192, 0.2)",
+                                "rgba(255, 99, 132, 0.2)"
+                            ],
+                            borderColor:[
+                                "rgb(75, 192, 192)",
+                                "rgb(255, 99, 132)"
+                            ],
+                            borderWidth:1
+                    }]
+                },
+                options:{
+                    scales:{
+                        yAxes:[{
+                                ticks:{
+                                    beginAtZero:true
+                                    }
+                        }]
+                    }
+                }
+            });
+
+
+//GRÁFICO OFF, DEF, NET RATING
+var ctxRating =document.getElementById("bar-chart-rating").getContext("2d");
+            var myChartRating = new Chart(ctxRating ,{
+                type:"bar",
+                data:{
+                    labels:['{{player1.player_name}}'.replace(/&#x27;/g,"'"),'{{player2.player_name}}'.replace(/&#x27;/g,"'"),'{{player3.player_name}}'.replace(/&#x27;/g,"'"),'{{player4.player_name}}'.replace(/&#x27;/g,"'"),'{{player5.player_name}}'.replace(/&#x27;/g,"'"),'Quinteto'],
+                    datasets:[{
+                            label: "Offensive Rating",
+                            data:[{{ player1.off_rating }},{{ player2.off_rating }},{{ player3.off_rating }},{{ player4.off_rating }},{{ player5.off_rating }},{{ object.off_rating }},],
+                            fill:false,
+                            backgroundColor:[
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235)"
+                            ],
+                            borderColor:[
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)"
+                            ],
+                            borderWidth:1
+                    },
+                    {
+                            label: "Defensive Rating",
+                            data:[{{ player1.def_rating }},{{ player2.def_rating }},{{ player3.def_rating }},{{ player4.def_rating }},{{ player5.def_rating }},{{ object.def_rating }},],
+                            fill:false,
+                            backgroundColor:[
+                                "rgba(255, 99, 132, 0.2)",
+                                "rgba(255, 99, 132, 0.2)",
+                                "rgba(255, 99, 132, 0.2)",
+                                "rgba(255, 99, 132, 0.2)",
+                                "rgba(255, 99, 132, 0.2)",
+                                "rgba(255, 99, 132)"
+                            ],
+                            borderColor:[
+                                "rgb(255, 99, 132)",
+                                "rgb(255, 99, 132)",
+                                "rgb(255, 99, 132)",
+                                "rgb(255, 99, 132)",
+                                "rgb(255, 99, 132)",
+                                "rgb(255, 99, 132)"
+                            ],
+                            borderWidth:1
+                    },
+                    {
+                            label: "Net Rating",
+                            data:[{{ player1.net_rating }},{{ player2.net_rating }},{{ player3.net_rating }},{{ player4.net_rating }},{{ player5.net_rating }},{{ object.net_rating }},],
+                            fill:false,
+                            backgroundColor:[
+                                "rgba(255, 205, 86, 0.2)",
+                                "rgba(255, 205, 86, 0.2)",
+                                "rgba(255, 205, 86, 0.2)",
+                                "rgba(255, 205, 86, 0.2)",
+                                "rgba(255, 205, 86, 0.2)",
+                                "rgba(255, 205, 86)"
+                            ],
+                            borderColor:[
+                                "rgb(255, 205, 86)",
+                                "rgb(255, 205, 86)",
+                                "rgb(255, 205, 86)",
+                                "rgb(255, 205, 86)",
+                                "rgb(255, 205, 86)",
+                                "rgb(255, 205, 86)"
+                            ],
+                            borderWidth:1
+                    }]
+                },
+                options:{
+                    scales:{
+                        yAxes:[{
+                                ticks:{
+                                    beginAtZero:true
+                                    }
+                        }]
+                    }
+                }
+            });
+
+
+
+//GRÁFICO EFG
+var ctxEfg =document.getElementById("bar-chart-efg").getContext("2d");
+            var myChartEfg = new Chart(ctxEfg ,{
+                type:"bar",
+                data:{
+                    labels:['{{player1.player_name}}'.replace(/&#x27;/g,"'"),'{{player2.player_name}}'.replace(/&#x27;/g,"'"),'{{player3.player_name}}'.replace(/&#x27;/g,"'"),'{{player4.player_name}}'.replace(/&#x27;/g,"'"),'{{player5.player_name}}'.replace(/&#x27;/g,"'"),'Quinteto'],
+                    datasets:[{
+                            label: "Effective Field Goal %",
+                            data:[{{ player1.efg_pct }},{{ player2.efg_pct }},{{ player3.efg_pct }},{{ player4.efg_pct }},{{ player5.efg_pct }},{{ object.efg_pct }},],
+                            fill:false,
+                            backgroundColor:[
+                                "rgba(73, 240, 81, 0.2)",
+                                "rgba(73, 240, 81, 0.2)",
+                                "rgba(73, 240, 81, 0.2)",
+                                "rgba(73, 240, 81, 0.2)",
+                                "rgba(73, 240, 81, 0.2)",
+                                "rgba(73, 240, 81, 0.7)"
+                            ],
+                            borderColor:[
+                                "rgb(73, 240, 81)",
+                                "rgb(73, 240, 81)",
+                                "rgb(73, 240, 81)",
+                                "rgb(73, 240, 81)",
+                                "rgb(73, 240, 81)",
+                                "rgb(73, 240, 81)"
+                            ],
+                            borderWidth:1
+                    }]
+                },
+                options:{
+                    scales:{
+                        yAxes:[{
+                                ticks:{
+                                    beginAtZero:true
+                                    }
+                        }]
+                    }
+                }
+            });
+
+
+//GRÁFICO PIE
+var ctxPie =document.getElementById("bar-chart-pie").getContext("2d");
+            var myChartPie = new Chart(ctxPie ,{
+                type:"bar",
+                data:{
+                    labels:['{{player1.player_name}}'.replace(/&#x27;/g,"'"),'{{player2.player_name}}'.replace(/&#x27;/g,"'"),'{{player3.player_name}}'.replace(/&#x27;/g,"'"),'{{player4.player_name}}'.replace(/&#x27;/g,"'"),'{{player5.player_name}}'.replace(/&#x27;/g,"'"),'Quinteto'],
+                    datasets:[{
+                            label: "Player Impact Estimate",
+                            data:[{{ player1.pie }},{{ player2.pie }},{{ player3.pie }},{{ player4.pie }},{{ player5.pie }},{{ object.pie }},],
+                            fill:false,
+                            backgroundColor:[
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(54, 162, 235)"
+                            ],
+                            borderColor:[
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)",
+                                "rgb(54, 162, 235)"
+                            ],
+                            borderWidth:1
+                    }]
+                },
+                options:{
+                    scales:{
+                        yAxes:[{
+                                ticks:{
+                                    beginAtZero:true
+                                    }
+                        }]
+                    }
+                }
+            });
+</script>
+{% endlocalize %}
+{% endblock %}

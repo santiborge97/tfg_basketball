@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div>
+            <div class="box">
+                <div class="content">
+                    <header class="align-center">
+                        <h2>Jugadores</h2>
+                    </header>
+                    <hr/>
+                    <form method="POST" action="{% url 'player_filter' %}" >
+                        {% csrf_token %}
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)"  style="margin-left: 0%;" >
+                               {{ form.player_name }}
+								{% for error in form.player_name.errors %}
+                                	<p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >{{ error }}</p>
+                            	{% endfor %}
+                            </div>
+                        </div>
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)" style="margin-left: 0%;" >
+                               {{ form.team_abr }}
+								{% for error in form.team_abr.errors %}
+                                	<p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >{{ error }}</p>
+                            	{% endfor %}
+                            </div>
+                        </div>
+                        <div class="row uniform">
+                            <div class="2u 12u$(xsmall)" style="margin-left: 0%;">
+                               {{ form.age }}
+								{% for error in form.age.errors %}
+                                	<p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >{{ error }}</p>
+                            	{% endfor %}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="12u$">
+                            <ul class="actions">
+                                <li><input type="submit" value="Buscar" /></li>
+                            </ul>
+                        </div>
+                    </form>
+                    <div>
+                        <h4>{{page_obj.end_index}} de {{page_obj.paginator.count}} resultados</h4>
+                    </div>
+
+                    <div class="table-wrapper sortable">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Jugador</th>
+                                    <th>Equipo</th>
+                                    <th>Edad</th>
+                                    <th>Partidos jugados</th>
+                                    <th>V</th>
+                                    <th>D</th>
+                                    <th>Min</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in object_list %}
+                                <tr>
+                                    <td>{{object.player_name}}</td>
+                                    <td>{{object.team_abr}}</td>
+                                    <td>{{object.age}}</td>
+                                    <td>{{object.games_played}}</td>
+                                    <td>{{object.w}}</td>
+                                    <td>{{object.l}}</td>
+                                    <td>{{object.min|floatformat:1}}</td>
+                                    <td><a href="{% url 'detail_player' object.pk %}">Detalles</a></td>
+
+                                </tr>
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% include 'pagination.html' %}
+                    <br>
+                    <div class="row">
+                        <a href="{% url 'home' %}" class="button" style="margin-left: 3%;">Volver</a>
+                        <br>
+                    </div>
+
+                    <script src="{% static 'js/sorttable.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+<!--
+
+            <form method="POST" action="{% url 'player_filter' %}" >
+                {% csrf_token %}
+                <div>
+                    <label>Nombre Jugador</label>
+                    {{ form.player_name }}
+                    {{ form.player_name.errors }}
+                </div>
+                <div>
+                    <label>Edad</label>
+                    {{ form.age }}
+                    {{ form.age.errors }}
+                </div>
+                <div>
+                    <label>Equipo</label>
+                    {{ form.team_abr }}
+                    {{ form.team_abr.errors }}
+                </div>
+                <button type="submit">Buscar</button>
+            </form>
+
+
+        <div>
+            <h3>{{page_obj.end_index}} de {{page_obj.paginator.count}} resultados</h3>
+           <h1>Todos los resultados</h1>
+        </div>
+
+<div>
+    <div>
+    <table id="myTable" class="sortable">
+      <caption></caption>
+      <thead>
+        <tr>
+            <th>Player</th>
+            <th>Team</th>
+            <th>Age</th>
+            <th>Games played</th>
+            <th>W</th>
+            <th>L</th>
+            <th>Min</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+
+        <tr>
+            <td>{{object.player_name}}</td>
+            <td>{{object.team_abr}}</td>
+            <td>{{object.age}}</td>
+            <td>{{object.games_played}}</td>
+            <td>{{object.w}}</td>
+            <td>{{object.l}}</td>
+            <td>{{object.min}}</td>
+            <td><a href="{% url 'detail_player' object.pk %}">Detalles</a></td>
+
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+    {% include 'pagination.html' %}
+</div>
+<div>
+    <a href="{% url 'home' %}">Volver</a>
+    <br>
+</div>
+
+<script src="{% static 'js/sorttable.js' %}"></script>  -->

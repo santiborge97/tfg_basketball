@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block content %}
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div>
+            <div class="box">
+                <div class="content">
+                    <header class="align-center">
+                        <h2><a id="botonpestaña1" href="{% url 'shot_predictions_list' %}"  class="button special scrolly" >Mis predicciones de tiro</a>  Mis predicciones de quintetos</h2>
+                    </header>
+                    <header class="align-center">
+                        <h3>Predicciones de quintetos por jugadores</h3>
+                    </header>
+                    <hr/>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Jugador1</th>
+                                    <th>Jugador2</th>
+                                    <th>Jugador3</th>
+                                    <th>Jugador4</th>
+                                    <th>Jugador5</th>
+                                    <th>Offensive Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in object_list %}
+                                <tr>
+                                    <td>{{object.player1}}</td>
+                                    <td>{{object.player2}}</td>
+                                    <td>{{object.player3}}</td>
+                                    <td>{{object.player4}}</td>
+                                    <td>{{object.player5}}</td>
+                                    <td>{{object.off_rating|floatformat:2}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% if is_paginated %}
+                    <div class="12u$">
+                        <div style="text-align:center;">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1&page2={{ page_obj2.number }}">&laquo; primera|</a>
+                                <a href="?page={{ page_obj.previous_page_number }}&page2={{ page_obj2.number }}">anterior|</a>
+                            {% else %}
+                                <a>|</a>
+                            {% endif %}
+                            {% for i in page_obj.paginator.page_range %}
+                            {% if page_obj.number == i %}
+                            {{ i }}<a>|</a>
+                            {% elif i > page_obj.number|add:"-5" and i < page_obj.number|add:"5" %}
+                                <a href="?page={{ i }}&page2={{ page_obj2.number }}">{{ i }} |</a>
+                            {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}&page2={{ page_obj2.number }}">siguiente|</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}&page2={{ page_obj2.number }}">última &raquo;</a>
+                            {% else %}<span></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <br>
+                    <br>
+                    {% if ten_off_ratings %}
+                    <div class="align-center">
+                        <p> Aquí puedes ver una comparación de tus 10 últimas predicciones de quintetos por jugador</p>
+                    </div>
+                    <div id="containerOff">
+                        <canvas id="bar-chart-off" style="position: relative; margin: auto; height: 80vh; width: 70vw;"></canvas>
+                    </div>
+                    {% endif %}
+                    <br>
+                    <br>
+                    <br>
+
+
+                    <header class="align-center">
+                        <h3>Predicciones de quintetos por estadísticas</h3>
+                    </header>
+                    <hr/>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Effective Field Goal %</th>
+                                    <th>True Shotting %</th>
+                                    <th>Player Impact Estimate</th>
+                                    <th>Offensive Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in object_list2 %}
+                                <tr>
+                                    <td>{{object.efg_pct}}</td>
+                                    <td>{{object.ts_pct}}</td>
+                                    <td>{{object.pie}}</td>
+                                    <td>{{object.off_rating|floatformat:2}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% if is_paginated2 %}
+                    <div class="12u$">
+                        <div style="text-align:center;">
+                            {% if page_obj2.has_previous %}
+                                <a href="?page={{ page_obj.number }}&page2=1">&laquo; primera|</a>
+                                <a href="?page={{ page_obj.number }}&page2={{ page_obj2.previous_page_number }}">anterior|</a>
+                            {% else %}
+                                <a>|</a>
+                            {% endif %}
+                            {% for i in page_obj2.paginator.page_range %}
+                                {% if page_obj2.number == i %}
+                                {{ i }} <a>|</a>
+                                {% elif i > page_obj2.number|add:"-5" and i < page_obj2.number|add:"5"  %}
+                                <a href="?page={{ page_obj.number }}&page2={{ i }}">{{ i }} |</a>
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_obj2.has_next %}
+                                <a href="?page={{ page_obj.number}}&page2={{ page_obj2.next_page_number }}">siguiente|</a>
+                                <a href="?page={{ page_obj.number}}&page2={{ page_obj2.paginator.num_pages }}">última &raquo;</a>
+                            {% else %}<span></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <br>
+                    <br>
+                    {% if ten_off_ratings_statistics %}
+                    <div class="align-center">
+                        <p> Aquí puedes ver una comparación de tus 10 últimas predicciones de quintetos por estadísticas</p>
+                    </div>
+                    <div id="containerOffStatistics">
+                        <canvas id="bar-chart-off-statistics" style="position: relative; margin: auto; height: 80vh; width: 70vw;"></canvas>
+                    </div>
+                    {% endif %}
+                    <br>
+                    <br>
+                    <br>
+
+                    <div class="row">
+                        <a href="{% url 'home' %}" class="button" style="margin-left: 3%;">Volver</a>
+                        <br>
+                    </div>
+                    <script src="{% static 'js/sorttable.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+{% localize off %}
+<script>
+var ctxOff = document.getElementById("bar-chart-off").getContext("2d");
+var myChartOff = new Chart(ctxOff,{
+    type:"horizontalBar",
+    data:{
+        labels:[{% for prediction in ten_off_ratings %}
+                        "{{prediction}}".replace(/&#x27;/g,"'"), {% endfor%}],
+        datasets:[{
+                label:["Offensive Rating",],
+                data:[
+                    {% for prediction in ten_off_ratings %}
+                        {{ prediction.off_rating }},
+                    {% endfor%}],
+                fill:false,
+                backgroundColor:[
+                    {% for prediction in ten_off_ratings %}
+                        "rgba(54, 162, 235, 0.2)",
+                    {% endfor%}
+                ],
+                borderColor:[
+                    {% for prediction in ten_off_ratings %}
+                        "rgb(54, 162, 235)",
+                    {% endfor%}
+                ],
+                borderWidth:1
+        }]
+    },
+    options:{
+        scales:{
+            yAxes:[{
+                    ticks:{
+                        beginAtZero:true,
+                        mirror: true
+                        }
+            }]
+        }
+    }
+});
+
+
+var ctxOffStatistics = document.getElementById("bar-chart-off-statistics").getContext("2d");
+var myChartOffStatistics = new Chart(ctxOffStatistics,{
+    type:"horizontalBar",
+    data:{
+        labels:[{% for prediction in ten_off_ratings_statistics %}
+                        "{{prediction}}", {% endfor%}],
+        datasets:[{
+                label:["Offensive Rating",],
+                data:[
+                    {% for prediction in ten_off_ratings_statistics %}
+                        {{ prediction.off_rating }},
+                    {% endfor%}],
+                fill:false,
+                backgroundColor:[
+                    {% for prediction in ten_off_ratings_statistics %}
+                        "rgba(247, 244, 6, 0.4)",
+                    {% endfor%}
+                ],
+                borderColor:[
+                    {% for prediction in ten_off_ratings_statistics %}
+                        "rgb(247, 244, 6)",
+                    {% endfor%}
+                ],
+                borderWidth:1
+        }]
+    },
+    options:{
+        scales:{
+            yAxes:[{
+                    ticks:{
+                        beginAtZero:true,
+                        mirror: true
+                        }
+            }]
+        }
+    }
+});
+
+</script>
+{% endlocalize %}
+{% endblock %}

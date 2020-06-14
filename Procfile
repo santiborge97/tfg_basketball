@@ -1,0 +1,1 @@
+web: gunicorn tfg_basketball.wsgi --log-file -

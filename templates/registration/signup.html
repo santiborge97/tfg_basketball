@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="banner" class="wrapper style2">
+    <div class="inner">
+        <div>
+            <div class="box">
+                <div class="content">
+                    <header class="align-center">
+                        <h2>Regístrate</h2>
+                    </header>
+                    <hr />
+                    <form id="signup" method="POST">
+                        {% csrf_token %}
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                               {{ form.username }}
+								{% for error in form.username.errors %}
+                                	<p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >{{ error }}</p>
+                            	{% endfor %}
+                            </div>
+                        </div>
+						<div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                               {{ form.email }}
+								{% for error in form.email.errors %}
+                                	<p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >{{ error }}</p>
+                            	{% endfor %}
+                            </div>
+                        </div>
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                               {{form.password1}}
+								{% for error in form.password1.errors %}
+                                	<p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >{{ error }}</p>
+                            	{% endfor %}
+                            </div>
+                        </div>
+						<div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                               {{form.password2}}
+								{% for error in form.password2.errors %}
+                                	<p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >{{ error }}</p>
+                            	{% endfor %}
+                            </div>
+                        </div>
+						<br>
+                        <div class="12u$">
+							{% if form.password1.errors or form.password2.errors %}
+                            {% for rule in form.password1.help_text %}
+                                <p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >- {{ rule }}</p>
+                            {% endfor %}
+							{% endif %}
+                        </div>
+                        <h1></h1>
+                        <div class="12u$">
+                            <ul class="actions">
+                                <li><input type="submit" value="Enviar" /></li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+<!--
+        <form id="signup" method="POST"
+				action="{% url 'signup' %}">
+				{% csrf_token %}
+				<h1>
+					Regístrate
+				</h1>
+				<br>
+				<div >
+					{{ form.username }}
+					<div>
+						{{ form.username.errors }}
+						<br>
+
+					</div>
+				</div>
+				<div>
+					{{ form.email }}
+					<div>
+						{{ form.email.errors }}
+						<br>
+
+					</div>
+				</div>
+				<div>
+					{{ form.password1 }}
+					<div class="form-errors">
+						{{ form.password1.errors }}
+						<br>
+					</div>
+				</div>
+				<div>
+					{{ form.password2 }}
+                    {% for rule in form.password1.help_text %}
+					<p>{{rule}}</p>
+					{% endfor %}
+					<div class="form-errors">
+						{{ form.password2.errors }}
+						<br>
+					</div>
+				</div>
+				<div>
+					<button >
+						Continúa
+					</button>
+				</div>
+        </form>
+</body>
+</html> -->

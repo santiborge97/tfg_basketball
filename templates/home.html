@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<section id="banner" >
+        <div class="inner">
+                    {% if not user.is_authenticated %}
+                    <h1>Basketball App</h1>
+                    <br>
+                    <p style="color: rgba(255, 255, 255,1); font-family: verdana;">Una aplicación para explorar las estadísticas más avanzadas de la NBA y realizar tus predicciones.</p>
+                    <a href="{% url 'login' %}" class="button special scrolly">Iniciar sesión</a>
+                    <br/>
+                    <a href="{% url 'signup' %}" class="button special scrolly">Registrarse</a>
+                    {% endif %}
+                    {% if  user.is_authenticated %}
+                    <br/><br/>
+                    <h1>Inicio</h1>
+                    <br/>
+                    <a href="{% url 'shot_predictions_list' %}" class="button special scrolly">Mis Búsquedas</a>
+                    <br/>
+                    <a href="{% url 'shot_predictor' %}" class="button special scrolly">Predictor de tiros</a>
+                    <br/>
+                    <a id="botongordo" href="{% url 'lineup_predictor_by_statistics' %}" class="button special scrolly">Predictor de quintetos por estadísticas</a>
+                    <br/>
+                    <a id="botongordo2" href="{% url 'lineup_predictor_by_players' %}" class="button special scrolly">Predictor de quintetos por jugadores</a>
+                    <br/>
+                    <a href="{% url 'list_player_filter' %}" class="button special scrolly">Jugadores</a>
+                    <br/>
+                    <a href="{% url 'list_lineup_filter' %}" class="button special scrolly">Quintetos</a>
+                    {% endif %}
+        </div>
+</section>
+
+{% endblock %}

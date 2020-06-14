@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="banner" class="wrapper style2">
+    <div class="inner">
+        <div>
+            <div class="box">
+                <div class="content">
+                    <header class="align-center">
+                        <h2>Iniciar sesión</h2>
+                    </header>
+                    <hr />
+                    <form id="login" method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                               {{form.username}}
+                            </div>
+                        </div>
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                               {{form.password}}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="12u$">
+                            {% for error in form.non_field_errors %}
+                                <br>
+                                <p style="color: #f00;" >{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        <h1></h1>
+                        <div class="12u$">
+                            <ul class="actions">
+                                <li><input type="submit" value="Entrar" /></li>
+                            </ul>
+                        </div>
+                        <div class="12u$">
+                            <p style="color: #000;">¿Aún no te has registrado? Hazlo <a style="color: #000; text-decoration: underline !important;" href="{% url 'signup' %}">aquí</a>!</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

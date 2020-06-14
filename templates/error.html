@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="banner" class="wrapper style2">
+    <div class="inner">
+        <div>
+            <div class="box">
+                <div class="content">
+                    <header class="align-center">
+                        <h2>Oops! Se ha producido un error en la subida del archivo</h2>
+                    </header>
+                    <hr />
+                    <h3 style="color: red;"> Se ha producido un error en la subida del CSV. Por favor, compruebe que el archivo CSV tiene el formato correcto,
+                    y que no está introduciendo jugadores o quintetos ya existentes (con el mismo ID) en la base de datos</h3>
+
+                    <div class="row">
+                        {% if data == 'player'%}
+                        <a href="{% url 'upload_player_data' %}" class="button" style="margin-left: 3%;">Volver</a>
+                        {% elif data == 'lineup' %}
+                        <a href="{% url 'upload_lineup_data' %}" class="button" style="margin-left: 3%;">Volver</a>
+                        {% endif %}
+                        <br>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HOME</title>
+</head>
+<body>
+    <h1>Ha habido un error en la subida del CSV. Por favor, compruebe que el archivo CSV tiene el formato correcto,
+        y que no está introduciendo jugadores o quintetos ya existentes (con el mismo ID) en la base de datos</h1>
+    <div>
+        <a href="/admin">Volver</a>
+        <br>
+    </div>
+
+</body>
+</html>

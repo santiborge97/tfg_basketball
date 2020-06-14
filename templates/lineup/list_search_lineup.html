@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div>
+            <div class="box">
+                <div class="content">
+                    <header class="align-center">
+                        <h2>Quintetos</h2>
+                    </header>
+                    <hr/>
+                    <form method="POST" action="{% url 'lineup_filter' %}" >
+                        {% csrf_token %}
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)"  style="margin-left: 0%;" >
+                               {{ form.player_name }}
+								{% for error in form.player_name.errors %}
+                                	<p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >{{ error }}</p>
+                            	{% endfor %}
+                            </div>
+                        </div>
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)" style="margin-left: 0%;" >
+                               {{ form.team_abr }}
+								{% for error in form.team_abr.errors %}
+                                	<p style="color: #f00; font-size: 100%; margin-bottom: 0rem; text-align: left;" >{{ error }}</p>
+                            	{% endfor %}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="12u$">
+                            <ul class="actions">
+                                <li><input type="submit" value="Buscar" /></li>
+                            </ul>
+                        </div>
+                    </form>
+                    <div>
+                        <h4>{{page_obj.end_index}} de {{page_obj.paginator.count}} resultados</h4>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Jugadores</th>
+                                    <th>Equipo</th>
+                                    <th>Partidos jugados</th>
+                                    <th>V</th>
+                                    <th>D</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in object_list %}
+                                <tr>
+                                    <td>{{object.group_name}}</td>
+                                    <td>{{object.team_abreviation}}</td>
+                                    <td>{{object.games_played}}</td>
+                                    <td>{{object.w}}</td>
+                                    <td>{{object.l}}</td>
+                                    <td><a href="{% url 'detail_lineup' object.pk %}">Detalles</a></td>
+                                </tr>
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% include 'pagination.html' %}
+                    <br>
+                    <div class="row">
+                        <a href="{% url 'home' %}" class="button" style="margin-left: 3%;">Volver</a>
+                        <br>
+                    </div>
+
+                    <script src="{% static 'js/sorttable.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista y filtro quintetos</title>
+</head>
+        <div>
+            <form method="POST" action="{% url 'lineup_filter' %}" >
+                {% csrf_token %}
+                <div>
+                    <label>Jugador</label>
+                    {{ form.player_name }}
+                    {{ form.player_name.errors }}
+                </div>
+                <div>
+                    <label>Equipo</label>
+                    {{ form.team_abr }}
+                    {{ form.team_abr.errors }}
+                </div>
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+
+        <div>
+            <h3>{{page_obj.end_index}} de {{page_obj.paginator.count}} resultados</h3>
+           <h1>Todos los resultados</h1>
+        </div>
+
+<div>
+    <div>
+    <table id="myTable" class="sortable">
+      <caption></caption>
+      <thead>
+        <tr>
+            <th>Players</th>
+            <th>Team</th>
+            <th>Games played</th>
+            <th>W</th>
+            <th>L</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+
+        <tr>
+            <td>{{object.group_name}}</td>
+            <td>{{object.team_abreviation}}</td>
+            <td>{{object.games_played}}</td>
+            <td>{{object.w}}</td>
+            <td>{{object.l}}</td>
+            <td><a href="{% url 'detail_lineup' object.pk %}">Detalles</a></td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+    {% include 'pagination.html' %}
+</div>
+<div>
+    <a href="{% url 'home' %}">Volver</a>
+    <br>
+</div>
+
+<script src="{% static 'js/sorttable.js' %}"></script>
+-->

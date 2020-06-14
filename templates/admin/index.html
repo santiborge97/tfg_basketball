@@ -1,0 +1,31 @@
+{% extends "admin/index.html" %}
+
+{% block sidebar %}
+    {{block.super}}
+<div class="app-basketball module">
+    <table>
+        <caption>
+            <a href="/admin" class="section" title="Models in the Basketball application">Extra features</a>
+        </caption>
+
+        <tbody>
+            <tr class="model-addPlayer">
+
+                <th scope="row"><a href="{% url 'upload_player_data' %}">Players CSV</a></th>
+                <td><a href="{% url 'upload_player_data' %}" class="addlink">Add</a></td>
+                <td><a href="{% url 'delete_all_players' %}" class="deletelink" onclick="return confirm('Todos los jugadores van a eliminarse ¿Estás seguro?');">Delete all</a></td>
+
+            </tr>
+
+            <tr class="model-addLineup">
+
+                <th scope="row"><a href="{% url 'upload_lineup_data' %}">Lineup CSV</a></th>
+                <td><a href="{% url 'upload_lineup_data' %}" class="addlink">Add</a></td>
+                <td><a href="{% url 'delete_all_lineups' %}" class="deletelink" onclick="return confirm('Todos los quintetos van a eliminarse ¿Estás seguro?');">Delete all</a></td>
+
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+{% endblock %}
