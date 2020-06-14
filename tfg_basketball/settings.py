@@ -177,7 +177,7 @@ STATICFILES_DIRS = (
 )
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 STATIC_URL = '/static/'
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Linea añadida para heroku
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Linea añadida para heroku
 
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/'
