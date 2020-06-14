@@ -9,8 +9,6 @@ joblib==0.14.1
 libpython==0.2
 mkl-fft
 mkl-random
-numpy==1.18.3
-pandas==1.0.3
 psycopg2==2.8.4
 python-dateutil==2.8.1
 python-decouple==3.3
